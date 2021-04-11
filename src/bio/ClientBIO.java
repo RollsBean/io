@@ -1,6 +1,8 @@
 package bio;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -18,7 +20,22 @@ public class ClientBIO {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             // 写出数据
-            socket.getOutputStream().write(scanner.nextLine().getBytes());
+            OutputStream os = socket.getOutputStream();
+            os.write(scanner.nextLine().getBytes());
+            os.flush();
+            byte[] response = new byte[1024];
+            InputStream is = socket.getInputStream();
+            int read = is.read(response);
+            if (read != -1) {
+                String resStr = new String(response);
+                System.out.println(resStr);
+                if (resStr.startsWith("over")) {
+                    is.close();
+                    os.close();
+                    socket.close();
+                    break;
+                }
+            }
         }
     }
 }
