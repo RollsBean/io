@@ -16,9 +16,9 @@ public class NettyServer {
 
     public static void main(String[] args) {
         // 创建一个分发group，只用于接收请求
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         // 真正的工作组
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors()*2-1);
         // 启动类
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         try {
@@ -28,6 +28,7 @@ public class NettyServer {
                     .childHandler(new ChildChannelHandler());
 
             ChannelFuture cf = serverBootstrap.bind(9023).sync();
+            System.out.println("server start");
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -43,7 +44,7 @@ public class NettyServer {
         protected void initChannel(SocketChannel ch) throws Exception {
             // 添加一个channelHandler
             // 初始化通道
-            ch.pipeline().addLast(new NettyServerHandler());
+            ch.pipeline().addLast(new NettyServerAsyncHandler());
         }
     }
 }

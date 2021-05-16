@@ -15,6 +15,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = (ByteBuf) msg;
         // 下面打印的是 byteBuf： PooledUnsafeDirectByteBuf(ridx: 0, widx: 13, cap: 2048)
         System.out.println(byteBuf.toString());
+        System.out.println("msg come:" + System.currentTimeMillis());
         System.out.println(byteBuf.toString(CharsetUtil.UTF_8));
     }
 

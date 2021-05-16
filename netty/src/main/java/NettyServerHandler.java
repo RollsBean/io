@@ -19,6 +19,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 这里仍然是同步执行的
         ByteBuf byteBuf = (ByteBuf) msg;
         System.out.println(byteBuf.toString(CharsetUtil.UTF_8));
     }
