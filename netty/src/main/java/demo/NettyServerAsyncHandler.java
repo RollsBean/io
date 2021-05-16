@@ -1,3 +1,5 @@
+package demo;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -19,7 +21,7 @@ public class NettyServerAsyncHandler extends ChannelInboundHandlerAdapter {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("time sleep begin:" + System.currentTimeMillis());
+            System.out.println("time sleep end:" + System.currentTimeMillis());
             ctx.writeAndFlush(Unpooled.copiedBuffer("来自客户端的消息", CharsetUtil.UTF_8));
         });
         super.channelRead(ctx, msg);
